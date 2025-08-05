@@ -1,83 +1,154 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Calculadora de Horas</title>
-<style>
-  body { font-family: Arial, sans-serif; max-width: 400px; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; }
-  label, input, select, button { display: block; width: 100%; margin-bottom: 15px; font-size: 1rem; }
-  button { background-color: #0078D7; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; }
-  button:hover { background-color: #005A9E; }
-  pre { white-space: pre-wrap; background: #f0f0f0; padding: 10px; border-radius: 5px; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Calculadora de Horas</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f5f6fa;
+      color: #333;
+      margin: 0;
+      padding: 40px 20px;
+    }
+
+    .contenedor {
+      max-width: 400px;
+      margin: auto;
+      padding: 25px;
+      background-color: #ffffff;
+      border-radius: 15px;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    h2 {
+      color: #0078D7;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .etiqueta {
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+
+    .input-estilo,
+    .dropdown-estilo {
+      background-color: #ffffff;
+      border: 1px solid #ccc;
+      color: #333;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .boton-primario {
+      background: linear-gradient(to right, #56CCF2, #2F80ED);
+      color: white;
+      padding: 12px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .boton-primario:hover {
+      box-shadow: 0 4px 12px rgba(0, 120, 215, 0.3);
+    }
+
+    .bloque-check {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    pre {
+      background: #ecf0f1;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-family: Consolas, monospace;
+      white-space: pre-wrap;
+    }
+  </style>
 </head>
 <body>
-<h2>Calculadora de Horas</h2>
-<label for="hora">Hora de Ingreso (HH:MM)</label>
-<input type="time" id="hora" required />
+  <div class="contenedor">
+    <h2>Calculadora de Horas</h2>
 
-<label><input type="checkbox" id="salidaTemporal" /> Salida Temporal</label>
+    <label for="hora" class="etiqueta">Hora de Ingreso (HH:MM)</label>
+    <input type="time" id="hora" class="input-estilo" required />
 
-<label for="intervalo">Duración de la salida temporal</label>
-<select id="intervalo">
-  <option value="0">0 min</option>
-  <option value="10">10 min</option>
-  <option value="20">20 min</option>
-  <option value="30">30 min</option>
-  <option value="40">40 min</option>
-  <option value="50">50 min</option>
-  <option value="60">60 min</option>
-  <option value="70">70 min</option>
-  <option value="80">80 min</option>
-  <option value="90">90 min</option>
-  <option value="100">100 min</option>
-  <option value="110">110 min</option>
-  <option value="120">120 min</option>
-</select>
+    <div class="bloque-check">
+      <input type="checkbox" id="salidaTemporal" />
+      <label for="salidaTemporal" class="etiqueta">Salida Temporal</label>
+    </div>
 
-<button onclick="calcularHoras()">Calcular</button>
+    <label for="intervalo" class="etiqueta">Duración de la salida temporal</label>
+    <select id="intervalo" class="dropdown-estilo">
+      <option value="0">0 min</option>
+      <option value="10">10 min</option>
+      <option value="20">20 min</option>
+      <option value="30">30 min</option>
+      <option value="40">40 min</option>
+      <option value="50">50 min</option>
+      <option value="60">60 min</option>
+      <option value="70">70 min</option>
+      <option value="80">80 min</option>
+      <option value="90">90 min</option>
+      <option value="100">100 min</option>
+      <option value="110">110 min</option>
+      <option value="120">120 min</option>
+    </select>
 
-<pre id="resultado"></pre>
+    <button onclick="calcularHoras()" class="boton-primario">Calcular</button>
+    <pre id="resultado"></pre>
+  </div>
 
-<script>
-  function calcularHoras() {
-    const horaInput = document.getElementById("hora").value;
-    const salidaTemporal = document.getElementById("salidaTemporal").checked;
-    const intervalo = parseInt(document.getElementById("intervalo").value);
-    const resultado = document.getElementById("resultado");
+  <script>
+    function calcularHoras() {
+      const horaInput = document.getElementById("hora").value;
+      const salidaTemporal = document.getElementById("salidaTemporal").checked;
+      const intervalo = parseInt(document.getElementById("intervalo").value);
+      const resultado = document.getElementById("resultado");
 
-    if (!horaInput) {
-      resultado.textContent = "Por favor, ingresa una hora válida (HH:MM).";
-      return;
+      if (!horaInput) {
+        resultado.textContent = "Por favor, ingresa una hora válida (HH:MM).";
+        return;
+      }
+
+      const [hora, minuto] = horaInput.split(":").map(Number);
+      const ingreso = new Date();
+      ingreso.setHours(hora, minuto, 0, 0);
+
+      const sumarMinutos = (fecha, mins) => new Date(fecha.getTime() + mins * 60000);
+
+      const cincoHoras = sumarMinutos(ingreso, 5 * 60);
+      const seisCuarenta = sumarMinutos(ingreso, 6 * 60 + 40);
+
+      const cincoHorasAjustada = salidaTemporal ? sumarMinutos(cincoHoras, intervalo) : cincoHoras;
+      const seisCuarentaAjustada = salidaTemporal ? sumarMinutos(seisCuarenta, intervalo) : seisCuarenta;
+
+      const formatearHora = (fecha) => fecha.toTimeString().substring(0, 5);
+
+      let mensaje = `Hora de Ingreso: ${formatearHora(ingreso)}\n`;
+      mensaje += `+5 horas: ${formatearHora(cincoHoras)}\n`;
+      mensaje += `+6h40min: ${formatearHora(seisCuarenta)}\n`;
+
+      if (salidaTemporal && intervalo > 0) {
+        mensaje += `\n🔹 Con salida temporal de ${intervalo} min:\n`;
+        mensaje += `+5 horas ajustado: ${formatearHora(cincoHorasAjustada)}\n`;
+        mensaje += `+6h40min ajustado: ${formatearHora(seisCuarentaAjustada)}`;
+      }
+
+      resultado.textContent = mensaje;
     }
-
-    const [hora, minuto] = horaInput.split(":").map(Number);
-    const ingreso = new Date();
-    ingreso.setHours(hora, minuto, 0, 0);
-
-    const sumarMinutos = (fecha, mins) => new Date(fecha.getTime() + mins * 60000);
-
-    const cincoHoras = sumarMinutos(ingreso, 5 * 60);
-    const seisCuarenta = sumarMinutos(ingreso, 6 * 60 + 40);
-
-    const cincoHorasAjustada = salidaTemporal ? sumarMinutos(cincoHoras, intervalo) : cincoHoras;
-    const seisCuarentaAjustada = salidaTemporal ? sumarMinutos(seisCuarenta, intervalo) : seisCuarenta;
-
-    const formatearHora = (fecha) => fecha.toTimeString().substring(0, 5);
-
-    let mensaje = `Hora de Ingreso: ${formatearHora(ingreso)}\n`;
-    mensaje += `+5 horas: ${formatearHora(cincoHoras)}\n`;
-    mensaje += `+6h40min: ${formatearHora(seisCuarenta)}\n`;
-
-    if (salidaTemporal && intervalo > 0) {
-      mensaje += `\n🔹 Con salida temporal de ${intervalo} min:\n`;
-      mensaje += `+5 horas ajustado: ${formatearHora(cincoHorasAjustada)}\n`;
-      mensaje += `+6h40min ajustado: ${formatearHora(seisCuarentaAjustada)}`;
-    }
-
-    resultado.textContent = mensaje;
-  }
-</script>
+  </script>
 </body>
 </html>
